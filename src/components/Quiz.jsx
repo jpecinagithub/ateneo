@@ -127,15 +127,13 @@ export default function Quiz({ deck, onFinish, onQuit }) {
   const imgUrl = q.imageKey ? IMAGES[q.imageKey] : null;
 
   return (
-    <div className="card">
+    <div className="card quiz-card">
       <div className="quiz-meta">
         <span className="badge" style={{ background: cat.color }}>{cat.label}</span>
         <span className="q-counter">Pregunta {idx + 1} de {deck.length}</span>
-        <TimerRing seconds={timeLeft} />
-      </div>
-      <div className="quiz-meta">
         <span className="score-line">Puntos: {score.toLocaleString("es-ES")}</span>
         {streak >= 2 && <span className="streak">🔥 Racha ×{streak}</span>}
+        <TimerRing seconds={timeLeft} />
       </div>
 
       <h2 className="q-text">{q.question}</h2>
@@ -167,44 +165,46 @@ export default function Quiz({ deck, onFinish, onQuit }) {
         </div>
       )}
 
-      <div className="options" role="group" aria-label="Opciones de respuesta">
-        {q.options.map((opt, i) => {
-          let cls = "option";
-          if (phase === "feedback") {
-            if (i === q.answer) cls += " is-correct";
-            else if (i === picked) cls += " is-wrong";
-            else cls += " dim";
-          }
-          return (
-            <button
-              key={i}
-              className={cls}
-              disabled={phase !== "answering"}
-              onClick={() => resolve(i)}
-              aria-label={`Opción ${i + 1}: ${opt}`}
-            >
-              <span className="key" aria-hidden="true">{i + 1}</span>
-              <span>{opt}</span>
-            </button>
-          );
-        })}
-      </div>
-
-      {phase === "feedback" && lastPoints && (
-        <div className={"feedback " + (lastPoints.correct ? "ok" : "ko")} aria-live="polite">
-          <span className="verdict">
-            {picked === null
-              ? "⏱ Tiempo agotado"
-              : lastPoints.correct
-                ? "✓ Correcto"
-                : "✗ Incorrecto"}
-            {lastPoints.correct && (
-              <span className="points-pop">+{lastPoints.points}</span>
-            )}
-          </span>
-          {q.explanation}
+      <div className="quiz-body">
+        <div className="options" role="group" aria-label="Opciones de respuesta">
+          {q.options.map((opt, i) => {
+            let cls = "option";
+            if (phase === "feedback") {
+              if (i === q.answer) cls += " is-correct";
+              else if (i === picked) cls += " is-wrong";
+              else cls += " dim";
+            }
+            return (
+              <button
+                key={i}
+                className={cls}
+                disabled={phase !== "answering"}
+                onClick={() => resolve(i)}
+                aria-label={`Opción ${i + 1}: ${opt}`}
+              >
+                <span className="key" aria-hidden="true">{i + 1}</span>
+                <span>{opt}</span>
+              </button>
+            );
+          })}
         </div>
-      )}
+
+        {phase === "feedback" && lastPoints && (
+          <div className={"feedback " + (lastPoints.correct ? "ok" : "ko")} aria-live="polite">
+            <span className="verdict">
+              {picked === null
+                ? "⏱ Tiempo agotado"
+                : lastPoints.correct
+                  ? "✓ Correcto"
+                  : "✗ Incorrecto"}
+              {lastPoints.correct && (
+                <span className="points-pop">+{lastPoints.points}</span>
+              )}
+            </span>
+            {q.explanation}
+          </div>
+        )}
+      </div>
 
       <div className="btn-row">
         <button className="btn btn-ghost" onClick={() => { audio.sfxClick(); onQuit(); }}>

@@ -5,7 +5,7 @@ import { audio } from "../lib/audio";
 
 export default function Home({ onStart, onShowRanking, onShowHowTo }) {
   const [level, setLevel] = useState("media");
-  const [mode, setMode] = useState("quick");
+  const [mode, setMode] = useState("express");
   const bestMedia = bestScore("media");
   const bestAlta = bestScore("alta");
 
@@ -42,7 +42,7 @@ export default function Home({ onStart, onShowRanking, onShowHowTo }) {
             >
               <span className="tick" aria-hidden="true">✓</span>
               <h3>{lv.label}</h3>
-              <p>{lv.tagline}. 100 preguntas de cultura general.</p>
+              <p>{lv.tagline}.</p>
               {best > 0 && (
                 <span className="best">★ Mejor marca: {best.toLocaleString("es-ES")}</span>
               )}
@@ -54,22 +54,22 @@ export default function Home({ onStart, onShowRanking, onShowHowTo }) {
       <p className="pick-label" id="lbl-mode">Modo de partida</p>
       <div className="pick-grid" role="radiogroup" aria-labelledby="lbl-mode">
         <button
-          className={"pick-card" + (mode === "full" ? " selected" : "")}
-          role="radio" aria-checked={mode === "full"}
-          onClick={() => pickMode("full")}
+          className={"pick-card" + (mode === "classic" ? " selected" : "")}
+          role="radio" aria-checked={mode === "classic"}
+          onClick={() => pickMode("classic")}
         >
           <span className="tick" aria-hidden="true">✓</span>
-          <h3>Partida completa</h3>
-          <p>Las 100 preguntas del nivel, en orden aleatorio. La prueba definitiva.</p>
+          <h3>Partida clásica · 25 preguntas</h3>
+          <p>25 preguntas al azar. La partida estándar, redonda y completa.</p>
         </button>
         <button
-          className={"pick-card" + (mode === "quick" ? " selected" : "")}
-          role="radio" aria-checked={mode === "quick"}
-          onClick={() => pickMode("quick")}
+          className={"pick-card" + (mode === "express" ? " selected" : "")}
+          role="radio" aria-checked={mode === "express"}
+          onClick={() => pickMode("express")}
         >
           <span className="tick" aria-hidden="true">✓</span>
-          <h3>Partida rápida</h3>
-          <p>20 preguntas al azar. Perfecta para un café.</p>
+          <h3>Partida exprés · 10 preguntas</h3>
+          <p>Solo 10 preguntas. Perfecta para un café.</p>
         </button>
       </div>
 

@@ -38,11 +38,17 @@ body {
     radial-gradient(1100px 520px at 50% -12%, #18202c 0%, var(--bg) 60%) fixed,
     var(--bg);
   min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-#root { min-height: 100vh; display: flex; flex-direction: column; }
+#root { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+
+/* Durante la partida la altura es exacta: la tarjeta se ciñe al viewport
+   y el cuerpo del quiz absorbe el espacio (sin scroll de página). */
+#root.is-quiz { height: 100dvh; overflow: hidden; }
 
 h1, h2, h3 { letter-spacing: -0.015em; }
 
@@ -71,8 +77,10 @@ button { font-family: var(--sans); }
 /* ---------- cabecera ---------- */
 .topbar {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 1rem 1.6rem;
+  gap: 0.8rem;
+  padding: clamp(0.45rem, 1.2vh, 0.9rem) clamp(1rem, 3vw, 1.6rem);
   max-width: 1100px; width: 100%; margin: 0 auto;
+  flex: none;
 }
 .brand {
   font-weight: 800; font-size: 1.25rem;
@@ -90,15 +98,16 @@ button { font-family: var(--sans); }
   display: inline-flex; align-items: center; gap: 0.45rem;
   background: var(--surface); color: var(--muted);
   border: 1px solid var(--line); border-radius: 999px;
-  padding: 0.5rem 0.95rem; font-size: 0.92rem; font-weight: 600; cursor: pointer;
+  padding: 0.35rem 0.85rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;
   transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
 .icon-btn:hover { border-color: var(--accent); color: var(--text); }
 
 /* ---------- escenario ---------- */
 .stage {
-  flex: 1; display: flex; justify-content: center; align-items: flex-start;
-  padding: 1.2rem 1rem 3.5rem;
+  flex: 1 1 auto; min-height: 0;
+  display: flex; justify-content: center; align-items: flex-start;
+  padding: clamp(0.45rem, 1.2vh, 1.2rem) 1rem clamp(0.5rem, 1.7vh, 3.5rem);
 }
 .card {
   width: 100%; max-width: 880px;
@@ -106,7 +115,7 @@ button { font-family: var(--sans); }
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
-  padding: 2.6rem 2.8rem;
+  padding: clamp(1rem, 2.2vh, 2.6rem) clamp(1.1rem, 4vw, 2.8rem);
   animation: rise 0.45s cubic-bezier(0.22, 0.9, 0.3, 1);
 }
 .card.narrow { max-width: 640px; }
@@ -118,10 +127,10 @@ button { font-family: var(--sans); }
 
 .eyebrow {
   font-size: 0.82rem; font-weight: 700; letter-spacing: 0.24em;
-  text-transform: uppercase; color: var(--accent); margin: 0 0 0.7rem;
+  text-transform: uppercase; color: var(--accent); margin: 0 0 0.5rem;
 }
 h1.title {
-  font-size: 2.5rem; margin: 0 0 0.5rem; color: var(--text); font-weight: 800;
+  font-size: clamp(1.5rem, 4vh, 2.5rem); margin: 0 0 0.5rem; color: var(--text); font-weight: 800;
   line-height: 1.15;
 }
 .lead { font-size: 1.12rem; line-height: 1.7; color: var(--text); font-weight: 400; }
@@ -130,8 +139,9 @@ h1.title {
 /* ---------- botones ---------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-  font-size: 1.08rem; font-weight: 700;
-  padding: 0.9rem 1.9rem; border-radius: 999px; cursor: pointer;
+  font-size: clamp(0.95rem, 2.3vh, 1.08rem); font-weight: 700;
+  padding: clamp(0.55rem, 1.3vh, 0.9rem) clamp(1.3rem, 3vw, 1.9rem);
+  border-radius: 999px; cursor: pointer;
   border: 1px solid transparent; text-decoration: none;
   transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.16s ease, border-color 0.16s ease;
 }
@@ -145,28 +155,29 @@ h1.title {
 }
 .btn-ghost:hover { border-color: var(--accent); background: var(--accent-soft); transform: translateY(-1px); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
-.btn-row { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.6rem; }
+.btn-row { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: clamp(0.6rem, 1.5vh, 1.6rem); }
 
 /* ---------- selectores (nivel y modo) ---------- */
 .pick-label {
   font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em;
   text-transform: uppercase; color: var(--faint);
-  margin: 1.8rem 0 0.8rem;
+  margin: clamp(0.6rem, 1.5vh, 1.8rem) 0 clamp(0.3rem, 0.8vh, 0.8rem);
 }
-.pick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.pick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.5rem, 1.4vh, 0.9rem); }
 .pick-card {
   position: relative;
   text-align: left; background: var(--surface-2);
   border: 1px solid var(--line); border-radius: 16px;
-  padding: 1.25rem 1.35rem; cursor: pointer; color: var(--text);
+  padding: clamp(0.6rem, 1.4vh, 1.25rem) clamp(0.9rem, 2.4vw, 1.35rem);
+  cursor: pointer; color: var(--text);
   transition: border-color 0.16s ease, transform 0.14s ease, background 0.16s ease;
 }
 .pick-card:hover { border-color: rgba(201, 168, 106, 0.5); transform: translateY(-2px); }
 .pick-card.selected { border-color: var(--accent); background: var(--accent-soft); }
-.pick-card h3 { margin: 0 0 0.3rem; font-size: 1.22rem; font-weight: 750; color: var(--text); }
-.pick-card p { margin: 0; color: var(--muted); font-size: 0.98rem; line-height: 1.55; }
+.pick-card h3 { margin: 0 0 0.3rem; font-size: clamp(0.95rem, 2.2vh, 1.22rem); font-weight: 750; color: var(--text); }
+.pick-card p { margin: 0; color: var(--muted); font-size: clamp(0.85rem, 2vh, 0.98rem); line-height: 1.45; }
 .pick-card .best {
-  display: block; margin-top: 0.65rem; font-size: 0.92rem; font-weight: 700; color: var(--accent);
+  display: block; margin-top: 0.4rem; font-size: 0.92rem; font-weight: 700; color: var(--accent);
 }
 .pick-card .tick {
   position: absolute; top: 1rem; right: 1rem;
@@ -183,14 +194,18 @@ h1.title {
 /* ---------- home ---------- */
 .hero { text-align: center; padding: 0.4rem 0 0; }
 .hero .monogram {
-  width: 84px; height: 84px; margin: 0 auto 1.2rem;
+  width: clamp(44px, 6vh, 84px); height: clamp(44px, 6vh, 84px);
+  margin: 0 auto clamp(0.4rem, 1vh, 1.2rem);
   border: 1px solid rgba(201, 168, 106, 0.45); border-radius: 24px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 2.2rem; font-weight: 800; color: var(--accent);
+  font-size: clamp(1.3rem, 3.2vh, 2.2rem); font-weight: 800; color: var(--accent);
   background: var(--surface-2);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
-.hero .lead { max-width: 34rem; margin-left: auto; margin-right: auto; }
+.hero .lead {
+  max-width: 34rem; margin-left: auto; margin-right: auto;
+  font-size: clamp(0.95rem, 2.3vh, 1.12rem); line-height: 1.55;
+}
 
 /* ---------- quiz ---------- */
 .quiz-meta {
@@ -286,28 +301,107 @@ h1.title {
 .timer-wrap.urgent .timer-num { color: var(--danger); animation: pulse 1s infinite; }
 @keyframes pulse { 50% { transform: scale(1.18); } }
 
+/* ---------- quiz: encaje en el viewport (sin scroll de página) ---------- */
+.stage-quiz { align-items: stretch; padding-bottom: clamp(0.4rem, 1.2vh, 1.2rem); }
+.stage-quiz .card { align-self: stretch; margin: 0 auto; }
+
+.quiz-card {
+  display: flex; flex-direction: column;
+  min-height: 0; max-height: 100%;
+  padding-top: clamp(0.7rem, 1.8vh, 1.8rem);
+  padding-bottom: clamp(0.7rem, 1.8vh, 1.8rem);
+}
+/* Los bloques fijos no crecen; el cuerpo central absorbe el espacio libre. */
+.quiz-card > .quiz-meta,
+.quiz-card > .q-text,
+.quiz-card > .q-image-wrap,
+.quiz-card > .audio-box,
+.quiz-card > .btn-row { flex: none; }
+
+.quiz-card .quiz-meta { margin-bottom: clamp(0.25rem, 0.8vh, 0.8rem); gap: 0.7rem; }
+.quiz-card .q-text {
+  font-size: clamp(1.05rem, 3.4vh, 1.5rem);
+  line-height: 1.42;
+  margin: 0.1rem 0 clamp(0.35rem, 1vh, 1rem);
+}
+.quiz-card .q-image-wrap { margin-bottom: 0; }
+.quiz-card .q-image {
+  max-height: min(14vh, 140px);
+  object-fit: cover;
+  margin-bottom: clamp(0.4rem, 1vh, 0.9rem);
+  transition: max-height 0.25s ease;
+}
+.quiz-card .q-image-cap { margin: -0.2rem 0 clamp(0.3rem, 0.8vh, 0.7rem); font-size: 0.8rem; }
+.quiz-card .audio-box {
+  padding: clamp(0.6rem, 1.4vh, 1rem) clamp(0.8rem, 2vw, 1.2rem);
+  margin-bottom: clamp(0.5rem, 1.2vh, 1rem);
+}
+
+/* Cuerpo flexible: centra las opciones; solo usa scroll interno si no cabe. */
+.quiz-body {
+  flex: 1 1 auto; min-height: 0;
+  display: flex; flex-direction: column; justify-content: safe center;
+  overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+  padding: 0.15rem; /* margen para que el foco no se recorte */
+}
+.quiz-body::-webkit-scrollbar { width: 6px; }
+.quiz-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; }
+
+.quiz-card .options { margin-top: 0; gap: clamp(0.4rem, 1vh, 0.7rem); }
+.quiz-card .option {
+  font-size: clamp(0.95rem, 2.6vh, 1.1rem);
+  line-height: 1.4;
+  padding: clamp(0.45rem, 1.4vh, 0.85rem) clamp(0.8rem, 2vw, 1.15rem);
+}
+.quiz-card .option .key {
+  width: clamp(1.7rem, 5vh, 2.1rem);
+  height: clamp(1.7rem, 5vh, 2.1rem);
+}
+.quiz-card .feedback {
+  margin-top: clamp(0.5rem, 1.2vh, 1rem);
+  padding: clamp(0.65rem, 1.6vh, 1.1rem) clamp(0.9rem, 2vw, 1.3rem);
+  font-size: clamp(0.92rem, 2.3vh, 1.05rem);
+}
+.quiz-card .feedback .verdict { font-size: clamp(1rem, 2.6vh, 1.12rem); }
+.quiz-card .btn-row { margin-top: clamp(0.5rem, 1.3vh, 1.2rem); }
+.quiz-card .btn {
+  font-size: clamp(0.92rem, 2.3vh, 1.02rem);
+  padding: clamp(0.55rem, 1.4vh, 0.85rem) clamp(1.2rem, 3vw, 1.9rem);
+}
+.quiz-card .timer-ring { width: clamp(40px, 8vh, 64px); height: auto; }
+.quiz-card .timer-num { font-size: clamp(1rem, 2.8vh, 1.2rem); }
+
+/* En la fase de feedback se compacta la imagen y las opciones para que
+   la explicación también quepa sin scroll en pantallas bajas. */
+.quiz-card:has(.feedback) .q-image { max-height: min(6vh, 70px); }
+.quiz-card:has(.feedback) .q-image-cap { display: none; }
+.quiz-card:has(.feedback) .q-text { margin-bottom: 0.3rem; }
+.quiz-card:has(.feedback) .options { gap: 0.4rem; }
+.quiz-card:has(.feedback) .option { padding-top: 0.3rem; padding-bottom: 0.3rem; }
+
 /* ---------- final ---------- */
 .final-score {
-  font-size: 3.6rem; font-weight: 800;
+  font-size: clamp(2.2rem, 7vh, 3.6rem); font-weight: 800;
   color: var(--text); line-height: 1; margin: 0.5rem 0;
   letter-spacing: -0.03em; font-variant-numeric: tabular-nums;
 }
 .final-score small { font-size: 1.05rem; color: var(--muted); font-weight: 600; letter-spacing: 0; }
-.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; margin: 1.4rem 0; }
+.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.5rem, 1.4vh, 0.8rem); margin: clamp(0.8rem, 2vh, 1.4rem) 0; }
 .stat {
   background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: 14px;
-  padding: 0.95rem; text-align: center;
+  padding: clamp(0.6rem, 1.6vh, 0.95rem); text-align: center;
 }
-.stat .v { font-size: 1.6rem; font-weight: 800; color: var(--text); font-variant-numeric: tabular-nums; }
+.stat .v { font-size: clamp(1.2rem, 3.4vh, 1.6rem); font-weight: 800; color: var(--text); font-variant-numeric: tabular-nums; }
 .stat .l { font-size: 0.9rem; color: var(--muted); font-weight: 600; }
 .cat-stats { margin: 1rem 0; }
-.cat-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.55rem; font-size: 1rem; }
+.cat-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: clamp(0.3rem, 0.9vh, 0.55rem); font-size: 1rem; }
 .cat-row .name { width: 8.5rem; font-weight: 700; }
 .cat-row .bar { flex: 1; height: 0.55rem; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden; }
 .cat-row .bar i { display: block; height: 100%; border-radius: 999px; }
 .cat-row .pct { width: 3.4rem; text-align: right; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
 
-.nick-row { display: flex; gap: 0.7rem; margin-top: 1rem; flex-wrap: wrap; }
+.nick-row { display: flex; gap: 0.7rem; margin-top: clamp(0.6rem, 1.6vh, 1rem); flex-wrap: wrap; }
 .nick-input {
   flex: 1; min-width: 12rem; font-size: 1.12rem; padding: 0.85rem 1.1rem;
   border: 1px solid var(--line); border-radius: 14px;
@@ -370,16 +464,35 @@ h1.title {
 .rules b { color: var(--accent-strong); }
 
 footer.foot {
-  text-align: center; color: var(--faint); font-size: 0.9rem; padding: 0 1rem 1.8rem;
+  flex: none;
+  text-align: center; color: var(--faint);
+  font-size: clamp(0.8rem, 2vh, 0.9rem);
+  padding: 0 1rem clamp(0.5rem, 1.2vh, 1.8rem);
 }
 
 @media (max-width: 640px) {
   html { font-size: 17px; }
-  .card { padding: 1.6rem 1.2rem; }
+  .card { padding: 1.4rem 1.1rem; }
   .pick-grid { grid-template-columns: 1fr; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
   h1.title { font-size: 1.9rem; }
-  .q-text { font-size: 1.32rem; }
   .podium .place { min-width: 5.4rem; padding: 0.7rem 0.5rem; }
-  .topbar { padding: 0.9rem 1rem; }
+
+  /* La marca cabe junto al botón de sonido sin overflow horizontal. */
+  .brand { font-size: 1.05rem; letter-spacing: 0.18em; }
+  .brand small { display: none; }
+
+  /* Quiz en móvil: compacto y sin scroll horizontal. */
+  .quiz-card { padding: 1rem 1rem 1.1rem; }
+  .quiz-card .q-text { font-size: clamp(1.05rem, 2.9vh, 1.3rem); }
+  .quiz-card .q-image { max-height: 14vh; }
+  .quiz-card .timer-ring { width: clamp(40px, 6vh, 52px); }
+  .quiz-card .option { min-height: 44px; }
+
+  /* Targets táctiles ≥44px. */
+  .icon-btn { min-height: 44px; }
+  .nick-row .btn, .nick-input { min-height: 44px; }
+
+  /* El ranking puede partir sus filas en dos líneas. */
+  .rank-list li { flex-wrap: wrap; row-gap: 0.25rem; }
 }

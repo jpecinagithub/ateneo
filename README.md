@@ -23,7 +23,7 @@ ranking se guarda en `localStorage`.
 ## Juego
 
 - Selector de **nivel** (Intermedio / Avanzado) con la mejor marca de cada uno,
-  y modos **partida completa** (100 preguntas) y **partida rápida** (20 al azar).
+  y modos **partida clásica** (25 preguntas al azar) y **partida exprés** (10 preguntas).
 - **10 segundos por pregunta** con anillo de cuenta atrás (rojo y pulsante en
   los últimos 3 s). Teclas 1–4 para responder.
 - Puntuación: 100 base + bonus de velocidad (hasta 100) + racha (25 × racha,

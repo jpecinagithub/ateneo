@@ -52,7 +52,7 @@ export default function Ranking({ onBack }) {
                 <div className="pts">{r.score.toLocaleString("es-ES")}</div>
                 <div style={{ margin: "0.35rem 0" }}><LevelTag level={r.level} /></div>
                 <div className="muted" style={{ fontSize: "0.9rem" }}>
-                  {r.correct}/{r.total} · {r.mode === "quick" ? "rápida" : "completa"}
+                  {r.correct}/{r.total} · {r.mode === "express" ? "exprés" : r.mode === "classic" ? "clásica" : r.mode === "quick" ? "rápida" : "completa"}
                 </div>
               </div>
             ))}

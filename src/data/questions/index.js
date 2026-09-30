@@ -44,11 +44,11 @@ export function instantiate(q) {
 
 /**
  * level: "media" (intermedio) | "alta" (avanzado)
- * mode: "full" (100) | "quick" (20 aleatorias)
+ * mode: "express" (10 aleatorias) | "classic" (25 aleatorias)
  */
 export function buildDeck(mode, level = "media") {
   const pool = level === "alta" ? ADVANCED : INTERMEDIO;
-  const deck = mode === "quick" ? shuffle(pool).slice(0, 20) : shuffle(pool);
+  const deck = shuffle(pool).slice(0, mode === "express" ? 10 : 25);
   return deck.map(instantiate);
 }
 

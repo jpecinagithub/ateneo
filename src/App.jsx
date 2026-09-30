@@ -1,11 +1,11 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Home from "./components/Home";
 import Quiz from "./components/Quiz";
 import Final from "./components/Final";
 import Ranking from "./components/Ranking";
 import Review from "./components/Review";
 import HowTo from "./components/HowTo";
-import { buildDeck, validateBank } from "./data/questions";
+import { buildDeck, validateBank, ALL_QUESTIONS, instantiate } from "./data/questions";
 import { audio } from "./lib/audio";
 
 // Validación del banco en desarrollo: avisa en consola si algo falla.
@@ -18,7 +18,7 @@ if (import.meta.env.DEV) {
 export default function App() {
   const [screen, setScreen] = useState("home"); // home|howto|quiz|final|ranking|review
   const [deck, setDeck] = useState([]);
-  const [mode, setMode] = useState("quick");
+  const [mode, setMode] = useState("express");
   const [level, setLevel] = useState("media");
   const [results, setResults] = useState([]);
   const [muted, setMuted] = useState(audio.muted);
@@ -27,12 +27,25 @@ export default function App() {
 
   const goHome = useCallback(() => { audio.stopAmbient(); setScreen("home"); }, []);
 
+  // En la pantalla de pregunta el root tiene altura exacta (sin scroll de página).
+  useEffect(() => {
+    document.getElementById("root")?.classList.toggle("is-quiz", screen === "quiz");
+  }, [screen]);
+
   const startGame = useCallback((m, l) => {
     audio.ensure();
     audio.startAmbient();
     setMode(m);
     setLevel(l);
-    setDeck(buildDeck(m, l));
+    // Gancho de test (solo con ?qids=id1,id2 en la URL): fija el mazo en orden.
+    // Sin el parámetro el comportamiento es el normal. No afecta a producción.
+    let deck;
+    const qids = new URLSearchParams(window.location.search).get("qids");
+    if (qids) {
+      const byId = new Map(ALL_QUESTIONS.map((q) => [q.id, q]));
+      deck = qids.split(",").map((id) => byId.get(id.trim())).filter(Boolean).map(instantiate);
+    }
+    setDeck(deck && deck.length ? deck : buildDeck(m, l));
     setResults([]);
     setScreen("quiz");
   }, []);
@@ -81,7 +94,7 @@ export default function App() {
         </div>
       </header>
 
-      <main className="stage">
+      <main className={"stage" + (screen === "quiz" ? " stage-quiz" : "")}>
         {screen === "home" && (
           <Home
             onStart={startGame}
@@ -112,9 +125,11 @@ export default function App() {
         )}
       </main>
 
-      <footer className="foot">
-        ATENEO · Trivial de cultura general · Imágenes: Wikimedia Commons · Música sintetizada en su navegador
-      </footer>
+      {screen !== "quiz" && (
+        <footer className="foot">
+          ATENEO · Trivial de cultura general · Imágenes: Wikimedia Commons · Música sintetizada en su navegador
+        </footer>
+      )}
     </>
   );
 }
