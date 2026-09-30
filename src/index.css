@@ -326,11 +326,15 @@ h1.title {
 }
 .quiz-card .q-image-wrap { margin-bottom: 0; }
 .quiz-card .q-image {
-  max-height: min(14vh, 140px);
-  object-fit: cover;
+  width: auto; max-width: 100%;
+  margin-inline: auto;
+  max-height: min(18vh, 160px);
+  object-fit: contain;
   margin-bottom: clamp(0.4rem, 1vh, 0.9rem);
   transition: max-height 0.25s ease;
 }
+/* En preguntas de texto largo la imagen se compacta para que todo siga cabiendo sin scroll. */
+.quiz-card.q-long .q-image { max-height: min(12vh, 110px); }
 .quiz-card .q-image-cap { margin: -0.2rem 0 clamp(0.3rem, 0.8vh, 0.7rem); font-size: 0.8rem; }
 .quiz-card .audio-box {
   padding: clamp(0.6rem, 1.4vh, 1rem) clamp(0.8rem, 2vw, 1.2rem);
@@ -374,7 +378,7 @@ h1.title {
 
 /* En la fase de feedback se compacta la imagen y las opciones para que
    la explicación también quepa sin scroll en pantallas bajas. */
-.quiz-card:has(.feedback) .q-image { max-height: min(6vh, 70px); }
+.quiz-card:has(.feedback) .q-image { max-height: min(8vh, 90px); object-fit: contain; }
 .quiz-card:has(.feedback) .q-image-cap { display: none; }
 .quiz-card:has(.feedback) .q-text { margin-bottom: 0.3rem; }
 .quiz-card:has(.feedback) .options { gap: 0.4rem; }
@@ -485,7 +489,7 @@ footer.foot {
   /* Quiz en móvil: compacto y sin scroll horizontal. */
   .quiz-card { padding: 1rem 1rem 1.1rem; }
   .quiz-card .q-text { font-size: clamp(1.05rem, 2.9vh, 1.3rem); }
-  .quiz-card .q-image { max-height: 14vh; }
+  .quiz-card .q-image { max-height: 16vh; object-fit: contain; width: auto; margin-inline: auto; }
   .quiz-card .timer-ring { width: clamp(40px, 6vh, 52px); }
   .quiz-card .option { min-height: 44px; }
 

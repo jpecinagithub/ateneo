@@ -127,7 +127,7 @@ export default function Quiz({ deck, onFinish, onQuit }) {
   const imgUrl = q.imageKey ? IMAGES[q.imageKey] : null;
 
   return (
-    <div className="card quiz-card">
+    <div className={`card quiz-card${q.question.length > 90 ? " q-long" : ""}`}>
       <div className="quiz-meta">
         <span className="badge" style={{ background: cat.color }}>{cat.label}</span>
         <span className="q-counter">Pregunta {idx + 1} de {deck.length}</span>
