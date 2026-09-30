@@ -1,8 +1,18 @@
 import { useState } from "react";
-import { loadRanking, clearRanking } from "../lib/storage";
+import { loadRanking, clearRanking, normalizeLevel } from "../lib/storage";
+import { LEVELS } from "../data/questions";
 import { audio } from "../lib/audio";
 
 const MEDALS = ["🥇", "🥈", "🥉"];
+
+function LevelTag({ level }) {
+  const lv = normalizeLevel(level);
+  return (
+    <span className={"lvl-tag" + (lv === "alta" ? " adv" : "")}>
+      {LEVELS[lv].label}
+    </span>
+  );
+}
 
 export default function Ranking({ onBack }) {
   const [rows, setRows] = useState(loadRanking);
@@ -40,6 +50,7 @@ export default function Ranking({ onBack }) {
                 <div className="medal" aria-hidden="true">{MEDALS[i]}</div>
                 <div className="who">{r.nickname}</div>
                 <div className="pts">{r.score.toLocaleString("es-ES")}</div>
+                <div style={{ margin: "0.35rem 0" }}><LevelTag level={r.level} /></div>
                 <div className="muted" style={{ fontSize: "0.9rem" }}>
                   {r.correct}/{r.total} · {r.mode === "quick" ? "rápida" : "completa"}
                 </div>
@@ -51,6 +62,7 @@ export default function Ranking({ onBack }) {
               <li key={i}>
                 <span className="pos">{i + 1}.</span>
                 <span className="nm">{r.nickname}</span>
+                <LevelTag level={r.level} />
                 <span className="dt">{fmtDate(r.date)}</span>
                 <span className="sc">{r.score.toLocaleString("es-ES")} pts</span>
               </li>

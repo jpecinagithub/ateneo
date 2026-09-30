@@ -12,13 +12,14 @@ import { audio } from "./lib/audio";
 if (import.meta.env.DEV) {
   const v = validateBank();
   if (!v.ok) console.error("[ATENEO] Banco inválido:", v.errors);
-  else console.info("[ATENEO] Banco OK:", v.counts);
+  else console.info("[ATENEO] Banco OK:", v.counts, "posiciones:", v.positions);
 }
 
 export default function App() {
   const [screen, setScreen] = useState("home"); // home|howto|quiz|final|ranking|review
   const [deck, setDeck] = useState([]);
-  const [mode, setMode] = useState("full");
+  const [mode, setMode] = useState("quick");
+  const [level, setLevel] = useState("media");
   const [results, setResults] = useState([]);
   const [muted, setMuted] = useState(audio.muted);
   const [rankReturn, setRankReturn] = useState("home");
@@ -26,11 +27,12 @@ export default function App() {
 
   const goHome = useCallback(() => { audio.stopAmbient(); setScreen("home"); }, []);
 
-  const startGame = useCallback((m) => {
+  const startGame = useCallback((m, l) => {
     audio.ensure();
     audio.startAmbient();
     setMode(m);
-    setDeck(buildDeck(m));
+    setLevel(l);
+    setDeck(buildDeck(m, l));
     setResults([]);
     setScreen("quiz");
   }, []);
@@ -63,7 +65,7 @@ export default function App() {
     <>
       <header className="topbar">
         <button className="brand" onClick={goHome} aria-label="ATENEO — ir al inicio">
-          ATENEO<small>CULTURA GENERAL</small>
+          ATENEO<span className="dot">·</span><small>CULTURA GENERAL</small>
         </button>
         <div className="top-actions">
           <button
@@ -95,9 +97,10 @@ export default function App() {
           <Final
             results={results}
             mode={mode}
+            level={level}
             onSaved={() => showRanking("final")}
             onReview={() => { setReviewReturn("final"); setScreen("review"); }}
-            onReplay={() => startGame(mode)}
+            onReplay={() => startGame(mode, level)}
             onHome={goHome}
           />
         )}

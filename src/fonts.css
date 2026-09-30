@@ -1,22 +1,8 @@
-/* ATENEO — tipografías autoalojadas (variables, woff2) */
+/* ATENEO — tipografía autoalojada: Manrope variable (woff2) */
 @font-face {
-  font-family: 'Playfair Display';
+  font-family: 'Manrope';
   font-style: normal;
-  font-weight: 400 900;
+  font-weight: 200 800;
   font-display: swap;
-  src: url('/fonts/PlayfairDisplay-var.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Playfair Display';
-  font-style: italic;
-  font-weight: 400 900;
-  font-display: swap;
-  src: url('/fonts/PlayfairDisplay-italic-var.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Source Sans 3';
-  font-style: normal;
-  font-weight: 200 900;
-  font-display: swap;
-  src: url('/fonts/SourceSans3-var.woff2') format('woff2');
+  src: url('/fonts/Manrope-var.woff2') format('woff2');
 }

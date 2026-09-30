@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
-import { CATEGORIES } from "../data/questions";
+import { CATEGORIES, LEVELS } from "../data/questions";
 import { qualifies, saveScore } from "../lib/storage";
 import { audio } from "../lib/audio";
 
-export default function Final({ results, mode, onSaved, onReview, onReplay, onHome }) {
+export default function Final({ results, mode, level, onSaved, onReview, onReplay, onHome }) {
   const [nickname, setNickname] = useState("");
   const [saved, setSaved] = useState(false);
 
@@ -26,7 +26,7 @@ export default function Final({ results, mode, onSaved, onReview, onReplay, onHo
 
   const doSave = () => {
     const name = nickname.trim().slice(0, 16) || "Anónimo";
-    saveScore({ nickname: name, score: stats.score, correct: stats.correct, total: stats.total, mode });
+    saveScore({ nickname: name, score: stats.score, correct: stats.correct, total: stats.total, mode, level });
     audio.sfxCorrect();
     setSaved(true);
     onSaved();
@@ -34,7 +34,7 @@ export default function Final({ results, mode, onSaved, onReview, onReplay, onHo
 
   return (
     <div className="card">
-      <p className="eyebrow">Partida terminada</p>
+      <p className="eyebrow">Partida terminada · Nivel {LEVELS[level]?.label || ""}</p>
       <h1 className="title">Su veredicto</h1>
 
       <p className="final-score">
@@ -56,7 +56,7 @@ export default function Final({ results, mode, onSaved, onReview, onReplay, onHo
         </div>
       </div>
 
-      <h2 className="serif" style={{ color: "var(--ink)", fontSize: "1.4rem" }}>Por categorías</h2>
+      <h2 style={{ color: "var(--text)", fontSize: "1.35rem" }}>Por categorías</h2>
       <div className="cat-stats">
         {Object.keys(CATEGORIES).map((c) => {
           const s = stats.byCat[c];

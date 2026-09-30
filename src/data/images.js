@@ -37,4 +37,9 @@ export const IMAGES = {
   teresa: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Ecstasy_of_Saint_Teresa_September_2015-2a.jpg/960px-Ecstasy_of_Saint_Teresa_September_2015-2a.jpg",
   mobius: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/M%C3%B6bius_strip_3D_red.png/960px-M%C3%B6bius_strip_3D_red.png",
   golden: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Fibonacci_Spiral.svg/960px-Fibonacci_Spiral.svg.png",
+  sagrada: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Sagrada_Familia_March_2015-19bw.jpg/960px-Sagrada_Familia_March_2015-19bw.jpg",
+  giza: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/All_Gizah_Pyramids.jpg/960px-All_Gizah_Pyramids.jpg",
+  machu: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/80_-_Machu_Picchu_-_Juin_2009_-_edit.jpg/960px-80_-_Machu_Picchu_-_Juin_2009_-_edit.jpg",
+  greatwall: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Great_Wall_of_China_July_2006.JPG/960px-Great_Wall_of_China_July_2006.JPG",
+  descartes: "https://upload.wikimedia.org/wikipedia/commons/7/73/Frans_Hals_-_Portret_van_Ren%C3%A9_Descartes.jpg",
 };
