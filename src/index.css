@@ -314,7 +314,6 @@ h1.title {
 /* Los bloques fijos no crecen; el cuerpo central absorbe el espacio libre. */
 .quiz-card > .quiz-meta,
 .quiz-card > .q-text,
-.quiz-card > .q-image-wrap,
 .quiz-card > .audio-box,
 .quiz-card > .btn-row { flex: none; }
 
@@ -324,18 +323,27 @@ h1.title {
   line-height: 1.42;
   margin: 0.1rem 0 clamp(0.35rem, 1vh, 1rem);
 }
-.quiz-card .q-image-wrap { margin-bottom: 0; }
-.quiz-card .q-image {
+/* Fila principal: respuestas a la izquierda, imagen grande a la derecha. */
+.quiz-main {
+  flex: 1 1 auto; min-height: 0;
+  display: flex; align-items: flex-start;
+  gap: clamp(1rem, 2.5vw, 2rem);
+}
+.quiz-main .quiz-body { flex: 1.25; min-width: 0; justify-content: flex-start; }
+.quiz-main .q-image-wrap {
+  flex: 0 0 40%; min-width: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  margin-bottom: 0;
+}
+.quiz-main .q-image {
+  display: block;
+  height: min(42vh, 380px);
   width: auto; max-width: 100%;
-  margin-inline: auto;
-  max-height: min(18vh, 160px);
   object-fit: contain;
-  margin-bottom: clamp(0.4rem, 1vh, 0.9rem);
+  margin: 0 auto;
   transition: max-height 0.25s ease;
 }
-/* En preguntas de texto largo la imagen se compacta para que todo siga cabiendo sin scroll. */
-.quiz-card.q-long .q-image { max-height: min(12vh, 110px); }
-.quiz-card .q-image-cap { margin: -0.2rem 0 clamp(0.3rem, 0.8vh, 0.7rem); font-size: 0.8rem; }
+.quiz-main .q-image-cap { margin: 0.4rem 0 0; font-size: 0.8rem; text-align: center; }
 .quiz-card .audio-box {
   padding: clamp(0.6rem, 1.4vh, 1rem) clamp(0.8rem, 2vw, 1.2rem);
   margin-bottom: clamp(0.5rem, 1.2vh, 1rem);
@@ -378,8 +386,8 @@ h1.title {
 
 /* En la fase de feedback se compacta la imagen y las opciones para que
    la explicación también quepa sin scroll en pantallas bajas. */
-.quiz-card:has(.feedback) .q-image { max-height: min(8vh, 90px); object-fit: contain; }
-.quiz-card:has(.feedback) .q-image-cap { display: none; }
+.quiz-card:has(.feedback) .quiz-main .q-image { height: min(34vh, 300px); }
+.quiz-card:has(.feedback) .quiz-main .q-image-cap { display: none; }
 .quiz-card:has(.feedback) .q-text { margin-bottom: 0.3rem; }
 .quiz-card:has(.feedback) .options { gap: 0.4rem; }
 .quiz-card:has(.feedback) .option { padding-top: 0.3rem; padding-bottom: 0.3rem; }
@@ -489,7 +497,10 @@ footer.foot {
   /* Quiz en móvil: compacto y sin scroll horizontal. */
   .quiz-card { padding: 1rem 1rem 1.1rem; }
   .quiz-card .q-text { font-size: clamp(1.05rem, 2.9vh, 1.3rem); }
-  .quiz-card .q-image { max-height: 16vh; object-fit: contain; width: auto; margin-inline: auto; }
+  /* Quiz en móvil: imagen apilada encima de las respuestas. */
+  .quiz-main { flex-direction: column; align-items: stretch; }
+  .quiz-main .q-image-wrap { flex: none; order: -1; }
+  .quiz-main .q-image { height: auto; max-height: 24vh; }
   .quiz-card .timer-ring { width: clamp(40px, 6vh, 52px); }
   .quiz-card .option { min-height: 44px; }
 
